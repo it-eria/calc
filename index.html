@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Calc</title>
+</head>
+<body>
+<section class="calc d-flex justify-content-center align-items-center">
+    <div class="calc-container">
+        <div class="heading-title d-flex justify-content-center align-items-center">
+            <h2>Калькулятор</h2>
+        </div>
+        <div class=" content-calc">
+            <form action="">
+                <div class="d-flex align-items-center">
+                    <p class="mr-2">Аудит: </p>
+                    <div>
+                        <input type="radio" name="emotion" checked value="1" id="plus"
+                               class="input-hidden calc-input "/>
+                        <label for="plus" class="calc-label">
+                            <img src="img/plus.png" alt=""/>
+                        </label>
+                        <input type="radio" name="emotion" value="1" id="minus" class="input-hidden calc-input"/>
+                        <label for="minus" class="calc-label">
+                            <img src="img/minus.png" alt=""/>
+                        </label>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <p class="mr-2">Кол-во отзывов: </p>
+                    <input class="review-input review js-validate" value="10" type="number" min="10" max="300"
+                           required/>
+                </div>
+                <div class="d-flex align-items-center flex-sm-nowrap flex-wrap">
+                    <p class="mr-2">Кол-во площадок общих: </p>
+                    <div class="d-flex align-items-center w-100">
+                        <input required class="review-input place js-validate" value="1" type="number" min="1"
+                               max="30"/>
+                        <div class="help" content="Введите кол-во площадок от 1 до 30"><img src="img/question.png"
+                                                                                            alt="img"/></div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center flex-sm-nowrap flex-wrap">
+                    <p class="mr-2">Кол-во профильных площадок: </p>
+                    <div class="d-flex align-items-center w-100">
+                        <input required value="0" class="review-input prof-place js-validate" type="number" min="0"
+                               max="10"/>
+                        <div class="help" content="Введите кол-во площадок от 0 до 10"><img src="img/question.png"
+                                                                                            alt="img"/></div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <p class="mr-2">Сео анализ: </p>
+                    <div>
+                        <input type="radio" name="seo" checked value="5000" id="plus2" class="input-hidden calc-input"/>
+                        <label for="plus2" class="calc-label">
+                            <img src="img/plus.png" alt=""/>
+                        </label>
+                        <input type="radio" name="seo" value="0" id="minus2" class="input-hidden calc-input"/>
+                        <label for="minus2" class="calc-label">
+                            <img src="img/minus.png" alt=""/>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <p class="mr-2">Кол-во дней: </p>
+                    <input required class="review-input js-validate days" value="10" type="number" min="10" max="365"/>
+
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-4 flex-sm-nowrap flex-wrap">
+                    <div>
+                        <p class="font-20">Цена:<strong id="result" class="font-weight-bold ml-2 color-purple"><span id="lines"></span></strong>р.</p>
+                    </div>
+
+                    <div class="border-style"><input value="Сосчитать" id="summ" class="submit-btn m-auto m-sm-0" type="submit"/></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/jquery.animateNumber.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#summ").click(function () {
+            var isEmpty = false;
+            var radioValue = parseFloat($("input[name='emotion']:checked").val());
+            var seo = parseFloat($("input[name='seo']:checked").val());
+            var review = parseFloat($(".review").val());
+            if (review > 300) {
+                review = 300;
+                $(".review").val(review);
+            }
+            else if (review < 10) {
+                review = 10;
+                $(".review").val(review);
+            }
+            var place = parseFloat($(".place").val());
+            if (place > 30) {
+                place = 30;
+                $(".place").val(place);
+            }
+            else if (place < 1) {
+                place = 1;
+                $(".place").val(place);
+            }
+            var profPlace = parseFloat($(".prof-place").val());
+            if (profPlace > 10) {
+                profPlace = 10;
+                $(".profPlace").val(profPlace);
+            }
+            else if (profPlace < 0) {
+                profPlace = 0;
+                $(".profPlace").val(profPlace);
+            }
+            var days = parseFloat($(".days").val());
+            if (days > 365) {
+                days = 365;
+                $(".days").val(days);
+            }
+            else if (days < 10) {
+                days = 10;
+                $(".days").val(days);
+            }
+            $(".js-validate").each(function () {
+                if ($(this).val() == "" || $(this).val() == " ") {
+                    isEmpty = true;
+                }
+            });
+            if (!isEmpty) {
+                var summ = (review * 60) + (place * 1200) + (profPlace * 3000) + (days * 100) + seo;
+
+                $("#lines").text(summ);
+                $('#lines').animateNumber({ number: summ });
+                return false;
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
